@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Canvas tutorial</title>
+    <script type="text/javascript">
+      function draw() {
+        var canvas = document.getElementById('tutorial');
+        if (canvas.getContext) {
+          var ctx = canvas.getContext('2d');
+          var cercle = new Path2D();
+          var request = new XMLHttpRequest();
+          request.open('GET', https://192.168.197.77/80);
+          request.responseType = 'json';
+          request.onload = function() {
+            var coordonees = request.response;
+          };
+          request.send();
+          console.log(JSON.stringify(coordonees, null, 2))
+          cercle.moveTo(coordonees['x'], coordonees['y']);
+          cercle.arc(100, 35, 25, 0, 2 * Math.PI);
+          ctx.stroke(cercle); 
+        }
+      }
+
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+  </head>
+  <body onload="draw();">
+    <canvas id="tutorial" width="500" height="500"></canvas>
+  </body>
+</html>
