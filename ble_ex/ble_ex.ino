@@ -3,6 +3,8 @@
    Ported to Arduino ESP32 by Evandro Copercini
 */
 
+
+
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEScan.h>
@@ -12,23 +14,24 @@
 int scanTime = 30; //In seconds
 float N = 10.0 * 3.3;
 float measuredPower = -70.0; // RSSI mesure pour 1m entre 2 esp32
+float rssiValue;
+int8_t txValue;
+float distance, measure;
+float mean;//, mean_prec;
+float diff;
+std::string deviceName;
+int i;
+float tab[2];
+std::string prenom ("ESP_PE");
 
 class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks
 {
     void onResult(BLEAdvertisedDevice advertisedDevice)
     {
-      float rssiValue;
-      int8_t txValue;
-      float distance, measure;
-      float mean;//, mean_prec;
-      float diff;
-      std::string deviceName;
-      int i;
-      float tab[2];
       Serial.printf("Scanning device ");
       while(1)
       {
-        if(strcmp(advertisedDevice.getName().c_str(),"ESP_PE") == 0)
+        if(prenom.compare(advertisedDevice.getName()) == 0)
         {
           Serial.println("Device found");
           Serial.println("33333333333333");
@@ -41,6 +44,7 @@ class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks
           printf("measure = %f\n",measure);
           distance    = powf(10.0, measure);  
           printf("distance = %f\n",distance);
+          delay(100);
         }
       
       }
