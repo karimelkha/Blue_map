@@ -4,7 +4,7 @@ import sqlite3
 from app_constant import DATABASE 
 
 class beacons:
-    COLUMN_NAMES = ["UserName","SequenceNr"]
+    COLUMN_NAMES = ["UserName"]
     
     conn = None
     def __init__(self,db_path = DATABASE):
@@ -16,7 +16,7 @@ class beacons:
         except ConnectionError:
             raise 
         self.cur = self.conn.cursor()
-        query = "CREATE TABLE IF NOT EXISTS BEACONS( UserName VARCHAR(32) PRIMARY KEY UNIQUE, SequenceNr INTEGER );"
+        query = "CREATE TABLE IF NOT EXISTS BEACONS( UserName VARCHAR(32) PRIMARY KEY UNIQUE );"
             
         self.cur.execute(query)
 
@@ -42,7 +42,7 @@ class beacons:
 
         query += ") values " + var_field +")"
         try :
-            self.cur.execute(query,(beacon_name,seq_nr))
+            self.cur.execute(query,(beacon_name,))
         except sqlite3.IntegrityError :
             print("User already in the database")
         self.conn.commit()
