@@ -10,7 +10,7 @@ class position:
 
 
 class positions:
-    COLUMN_NAMES = ["SequenceN","D1","D2","D3","beacon"]
+    COLUMN_NAMES = ["SequenceN","X","Y","beacon"]
     conn = None
     def __init__(self,db_path):
         if db_path == "":
@@ -21,7 +21,7 @@ class positions:
         except ConnectionError:
             raise 
         self.cur = self.conn.cursor()
-        query = "CREATE TABLE IF NOT EXISTS POSITIONS( ID	INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, SequenceN INTEGER NOT NULL, D1 INTEGER NOT NULL, D2 INTEGER NOT NULL, D3 INTEGER NOT NULL,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,beacon VARCHAR(32),FOREIGN KEY(beacon) references BEACONS(UserName));"
+        query = "CREATE TABLE IF NOT EXISTS POSITIONS( ID	INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, SequenceN INTEGER NOT NULL, X NOT NULL, Y INTEGER NOT NULL,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,beacon VARCHAR(32),FOREIGN KEY(beacon) references BEACONS(UserName));"
             
         self.cur.execute(query)
         
