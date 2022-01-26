@@ -19,7 +19,7 @@ class samples:
         except ConnectionError:
             raise 
         self.cur = self.conn.cursor()
-        query = "CREATE TABLE IF NOT EXISTS SAMPLES( ID	INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,SCANNER VARVHAR(32),BEACON VARVHAR(32), DISTANCE INTEGER NOT NULL,FOREIGN KEY(beacon) references BEACONS(UserName));"
+        query = "CREATE TABLE IF NOT EXISTS SAMPLES( ID	INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,SCANNER VARVHAR(32),BEACON VARVHAR(32), DISTANCE INTEGER NOT NULL,FOREIGN KEY(beacon) references BEACONS(UserName));"
             
         self.cur.execute(query)
         
