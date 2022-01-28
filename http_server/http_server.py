@@ -17,7 +17,7 @@ def init_func(smtg=""):
     with app.app_context():
         db = getattr(g, '_database', None)
         if db is None:
-            db = g._database = sqlite3.connect(DATABASE)
+            db = g._database = sqlite3.connect(DATABASE,check_same_thread=False)
         db_access = db
         bcs = beacons(DATABASE)
         pts = positions(DATABASE)

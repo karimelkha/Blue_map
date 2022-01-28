@@ -17,7 +17,7 @@ class positions:
             raise ValueError
         
         try :
-            self.conn = sqlite3.connect(db_path)
+            self.conn = sqlite3.connect(db_path,check_same_thread=False)
         except ConnectionError:
             raise 
         self.cur = self.conn.cursor()
