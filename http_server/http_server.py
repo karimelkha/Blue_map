@@ -30,7 +30,7 @@ def init_func(smtg=""):
         bcs.add_beacon("SCAN_PE1")
         bcs.add_beacon("SCAN_PE2")
         bcs.add_beacon("SCAN_PE3")
-        pts.add_position("ESP_PE",3.8,4.8)
+        pts.add_position("ESP_PE",38,48)
         
 
 
@@ -41,6 +41,11 @@ def init_func(smtg=""):
 #     db = getattr(g, '_database', None)
 #     if db is not None:
 
+@app.route('/usr/<beacon>')
+def show(beacon):
+    msg = pts.get_last_position(beacon)
+    return msg , 200
+
 @app.route("/index.html")
 @app.route("/")
 def home():
@@ -48,9 +53,10 @@ def home():
         print("Tried POST query")
     return render_template("index.html")
 
+
+
 @app.route("/tracker.html")
 @app.route("/tracker")
-
 def tracker():
     if request.method == 'POST':
         print("Tried POST query")
