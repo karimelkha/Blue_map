@@ -83,8 +83,8 @@
 		 	</head>
 		  	<body onload="draw();">
 			<canvas id="canvas" width="1000" height="500"></canvas>
-			<button type="button" class="btn btn-dark">Dark</button>
-			<select name= beaconList method="GET" action="/">
+			<button id="dessiner" type="button" class="btn btn-dark">Button</button>
+			<select id="beaconList" name= beaconList method="GET" value="ESP_PE" action="/">
 				{% for beacon in beaconList %}
 				<option value= "{{beacon}}" SELECTED>{{beacon}}</option>"
 				{% endfor %}

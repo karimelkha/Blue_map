@@ -18,3 +18,19 @@ var pos_x = [20,100,200,156,98,176,456,210]
 var pos_y = [20,100,200,156,98,176,456,210]
 
 dessin(pos_x,pos_y)
+
+function click_function()
+{
+    var xhttp = new XMLHttpRequest();
+    var beacon_id = document.getElementById('beaconList').value;
+    console.log("beacon_id: "+beacon_id);
+    xhttp.open("GET","usr/"+beacon_id, true);
+    xhttp.send(null);
+    return xhttp.ResponseText;
+}
+
+var button1 = document.getElementById('dessiner');
+button1.onclick = click_function;
+
+
+
