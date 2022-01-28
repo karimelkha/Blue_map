@@ -10,7 +10,7 @@ class position:
 
 
 class positions:
-    COLUMN_NAMES = ["SequenceN","X","Y","beacon"]
+    COLUMN_NAMES = ["X","Y","beacon"]
     conn = None
     def __init__(self,db_path):
         if db_path == "":
@@ -21,22 +21,22 @@ class positions:
         except ConnectionError:
             raise 
         self.cur = self.conn.cursor()
-        query = "CREATE TABLE IF NOT EXISTS POSITIONS( ID	INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, SequenceN INTEGER NOT NULL, X NOT NULL, Y INTEGER NOT NULL,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,beacon VARCHAR(32),FOREIGN KEY(beacon) references BEACONS(UserName));"
+        query = "CREATE TABLE IF NOT EXISTS POSITIONS( ID	INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, X NOT NULL, Y INTEGER NOT NULL,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,beacon VARCHAR(32),FOREIGN KEY(beacon) references BEACONS(UserName));"
             
         self.cur.execute(query)
         
 
-    def add_position(self,beacon_name) :
+    def add_position(self,beaconName,X,Y) :
 	 
-        query = "INSERT INTO POSITIONS (" +COLUMN_NAMES[0]
+        query = "INSERT INTO POSITIONS (" +self.COLUMN_NAMES[0]
         var_field = "(?"
-        for col in COLUMN_NAMES[1:] :
+        for col in self.COLUMN_NAMES[1:] :
             query +=   " , " + col 
             var_field += ",?"
 
         query += ") values " + var_field +")"
 
-        self.cur.execute(query,(usr.name,usr.password,usr.pubkey,usr.ip))
+        self.cur.execute(query,(X,Y,beaconName))
     #     self.conn.commit()
 
     # def get_user(self,usr_name) :

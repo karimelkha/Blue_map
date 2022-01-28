@@ -30,6 +30,7 @@ def init_func(smtg=""):
         bcs.add_beacon("SCAN_PE1")
         bcs.add_beacon("SCAN_PE2")
         bcs.add_beacon("SCAN_PE3")
+        pts.add_position("ESP_PE",3.8,4.8)
         
 
 
