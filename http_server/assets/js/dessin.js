@@ -23,9 +23,21 @@ function click_function()
 {
     var xhttp = new XMLHttpRequest();
     var beacon_id = document.getElementById('beaconList').value;
+
+    xhttp.responseType = 'json';
     console.log("beacon_id: "+beacon_id);
     xhttp.open("GET","usr/"+beacon_id, true);
-    xhttp.send(null);
+
+    xhttp.onreadystatechange = function()
+    {
+        if(xhttp.readyState == 4 && xhttp.status == 200) {
+            // TODO : AJOUTER Dessin  a voir sur map
+            dessin([0,xhttp.response["x"]],[0,xhttp.response["y"]]);
+        }
+    }
+
+    xhttp.send('');
+
     return xhttp.ResponseText;
 }
 

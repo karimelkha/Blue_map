@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request, g, jsonify
 import sqlite3
 from app_constant import DATABASE 
 from beacon import *
@@ -44,7 +44,7 @@ def init_func(smtg=""):
 @app.route('/usr/<beacon>')
 def show(beacon):
     msg = pts.get_last_position(beacon)
-    return msg , 200
+    return jsonify(msg), 200
 
 @app.route("/index.html")
 @app.route("/")
