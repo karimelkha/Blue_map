@@ -49,6 +49,7 @@ def home():
 
 @app.route("/tracker.html")
 @app.route("/tracker")
+
 def tracker():
     if request.method == 'POST':
         print("Tried POST query")
