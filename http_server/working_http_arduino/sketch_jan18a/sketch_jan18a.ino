@@ -74,8 +74,7 @@ void loop() {
 //#else
 
 #endif
-      HTTPClient http;
-      http.begin( wf_client, SERVER_NAME);
+      
       /*SEND GET TO CHECK*/
       http.addHeader("Content-Type", "application/json");
       httpQuery = getJSONQuery("ESP_PE", 1, 1);

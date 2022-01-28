@@ -1,74 +1,68 @@
-/*
-   Based on Neil Kolban example for IDF: https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleScan.cpp
-   Ported to Arduino ESP32 by Evandro Copercini
-*/
-
-
-
+#include <WiFi.h>
+#include <HTTPClient.h>
 #include <BLEDevice.h>
-#include <BLEUtils.h>
 #include <BLEScan.h>
-#include <BLEAdvertisedDevice.h>
-#include <math.h>
 
-int scanTime = 30; //In seconds
-float N = 10.0 * 3.3;
-float measuredPower = -70.0; // RSSI mesure pour 1m entre 2 esp32
-float rssiValue;
-int8_t txValue;
-float distance, measure;
-float mean;//, mean_prec;
-float diff;
-std::string deviceName;
-int i;
-float tab[2];
-std::string prenom ("ESP_PE");
+//const char* ssid = "SFR-1df8";
+//const char* password = "Y5UJNCPHDE99XSQYFS4G";
 
-class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks
-{
-    void onResult(BLEAdvertisedDevice advertisedDevice)
-    {
-      Serial.printf("Scanning device ");
-      while(1)
-      {
-        if(prenom.compare(advertisedDevice.getName()) == 0)
-        {
-          Serial.println("Device found");
-          Serial.println("33333333333333");
-          rssiValue   = (float) advertisedDevice.getRSSI();
-          deviceName  = advertisedDevice.getServiceUUID().toString();
-          txValue     = advertisedDevice.getTXPower();
-          Serial.printf("rssi = %f\n",rssiValue);
-          Serial.printf("tx = %d\n",txValue);
-          measure     = (measuredPower - rssiValue) / N;
-          printf("measure = %f\n",measure);
-          distance    = powf(10.0, measure);  
-          printf("distance = %f\n",distance);
-          delay(100);
-        }
-      
-      }
-    }
-};
-
+const char* ssid = "Redmi Note 10 5G";
+const char* password = "mascarpone" ;
+#define SERVER_NAME "http://4d9b-37-164-175-26.ngrok.io/data"
+const String scanIDJsonField = "S";
+const String UIDJsonField = "B";
+const String distanceJsonField =  "D";
+const String jsonEqual = "\":\"";
+const String jsonSeparator  = "\",\"";
+const String my_id {"scanner_1"};
 void setup() {
-  Serial.begin(115200);
-  Serial.println("Scanning...");
+
+  WiFi.mode(WIFI_STA);                    //The WiFi is in station mode
+  WiFi.begin(ssid, password );
+  while (WiFi.status() != WL_CONNECTED);
+  BLEDevice::init("");
 }
 
+String getJSONQuery(String nm, int distance) {
+  char buffD[8];
+  itoa(distance, buffD, 10);
+  return "{\"" + scanIDJsonField + jsonEqual +  my_id
+         + jsonSeparator + UIDJsonField + jsonEqual + nm
+         + jsonSeparator + distanceJsonField + jsonEqual + buffD
+         + "\"}";
+}
+
+
+
 void loop() {
-  // put your main code here, to run repeatedly:
-  int deviceCount;
-  BLEScanResults foundDevices;
-  BLEScan* pBLEScan;
 
+  WiFiClient wf_client;
 
-  BLEDevice :: init("");
-  pBLEScan = BLEDevice::getScan(); //create new scan
-  pBLEScan -> setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
-  pBLEScan -> setActiveScan(true); //active scan uses more power, but get results fasterBLEDevice::init("");
-  foundDevices = pBLEScan->start(scanTime);
-  deviceCount  = foundDevices.getCount();
-  Serial.println(deviceCount);
-  delay(2000);
+  BLEScan* pBLEScan = BLEDevice::getScan();
+  HTTPClient http;
+  int nrDevice = 0;
+  int httpResponseCode;
+  BLEAdvertisedDevice curDevice;
+
+  pBLEScan->setActiveScan(true); //active scan uses more power, but get results faster
+
+  BLEScanResults foundDevices = pBLEScan->start(10);
+  nrDevice = foundDevices.getCount();
+  if (WiFi.status() == WL_CONNECTED) {
+    for (uint32_t i = 0 ; i < nrDevice; i++) {
+      Serial.println(nrDevice);
+      if (!foundDevices.getDevice(i).getName().compare("ESP_PE")) {
+        
+        http.begin( wf_client, SERVER_NAME);
+        http.addHeader("Content-Type", "application/json");
+        http.POST(getJSONQuery("ESP_PE",  1));
+        http.end();
+      }
+    }
+  }
+  http.begin( wf_client, SERVER_NAME);
+  http.addHeader("Content-Type", "application/json");
+  http.POST(getJSONQuery("EE",  1));
+  http.end();
+  delay(5000);
 }
