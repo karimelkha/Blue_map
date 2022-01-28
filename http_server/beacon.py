@@ -19,14 +19,24 @@ class beacons:
         query = "CREATE TABLE IF NOT EXISTS BEACONS( UserName VARCHAR(32) PRIMARY KEY UNIQUE );"
             
         self.cur.execute(query)
+    
+    def all_beacon(self):
 
+        query = "SELECT * FROM BEACONS "
+        fields = self.cur.execute(query).fetchall()
+        ret = []
+        print(fields)
+        for field in fields :
+            ret.append(field[0])
+        return ret
+
+            
     def retrieve_beacon(self,beacon_name):
         if beacon_name == "" :
             raise ValueError
 
         query = "SELECT * FROM BEACONS WHERE UserName = '" +beacon_name +"'"
         fields = self.cur.execute(query).fetchall()
-        
         if fields[0][0] != None:
             return fields[0][0] 
         else :

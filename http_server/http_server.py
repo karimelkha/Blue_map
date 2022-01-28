@@ -24,6 +24,12 @@ def init_func(smtg=""):
         smps = samples(DATABASE)
 
         bcs.add_beacon("ESP_PE")
+        bcs.add_beacon("ESP_PE1")
+        bcs.add_beacon("ESP_PE2")
+        bcs.add_beacon("ESP_PE3")
+        bcs.add_beacon("SCAN_PE1")
+        bcs.add_beacon("SCAN_PE2")
+        bcs.add_beacon("SCAN_PE3")
         
 
 
@@ -34,19 +40,20 @@ def init_func(smtg=""):
 #     db = getattr(g, '_database', None)
 #     if db is not None:
 
-
+@app.route("/index.html")
 @app.route("/")
 def home():
     if request.method == 'POST':
         print("Tried POST query")
     return render_template("index.html")
 
-
+@app.route("/tracker.html")
 @app.route("/tracker")
 def tracker():
     if request.method == 'POST':
         print("Tried POST query")
-    return render_template("tracker.html")
+    beaconList = bcs.all_beacon()
+    return render_template("tracker.html",beaconList=beaconList)
 
 
 @app.route('/data', methods=['POST', 'GET'])
