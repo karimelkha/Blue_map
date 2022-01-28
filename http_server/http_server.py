@@ -5,7 +5,7 @@ from app_constant import DATABASE
 from beacon import *
 from positions import *
 from samples import *
-app = Flask(__name__)
+app = Flask(__name__, static_folder="assets")
 
 db_access = None
 bcs = None
@@ -33,8 +33,6 @@ def init_func(smtg=""):
 # def close_connection(exception):
 #     db = getattr(g, '_database', None)
 #     if db is not None:
-#         db.close()
-
 
 
 @app.route("/")
@@ -44,6 +42,11 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/tracker")
+def tracker():
+    if request.method == 'POST':
+        print("Tried POST query")
+    return render_template("tracker.html")
 
 
 @app.route('/data', methods=['POST', 'GET'])
