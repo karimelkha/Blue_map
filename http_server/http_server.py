@@ -34,7 +34,7 @@ def init_func(smtg=""):
 #     db = getattr(g, '_database', None)
 #     if db is not None:
 
-
+@app.route("/index.html")
 @app.route("/")
 def home():
     if request.method == 'POST':
@@ -42,7 +42,7 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/tracker")
+@app.route("/tracker.html")
 def tracker():
     if request.method == 'POST':
         print("Tried POST query")
