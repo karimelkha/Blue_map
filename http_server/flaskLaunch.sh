@@ -1,1 +1,0 @@
- export FLASK_APP=http_server && export FLASK_RUN_HOST="0.0.0.0" && export FLASK_RUN_PORT=80 && flask run
