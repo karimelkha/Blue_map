@@ -80,4 +80,4 @@ if __name__ == '__main__':
     before_first_request_func()
     app.run()
 
-#export FLASK_APP=http_serv && export FLASK_RUN_HOST="localhost" && export FLASK_RUN_PORT="5000" && flask run
+#export FLASK_APP=http_server && export FLASK_RUN_HOST="localhost" && export FLASK_RUN_PORT="5000" && flask run
