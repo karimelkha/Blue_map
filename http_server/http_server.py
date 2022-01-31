@@ -29,6 +29,11 @@ def init_func(smtg=""):
         pts.add_position("ESP_PE",38,48)
         pts.add_position("ESP_PE",200,280)
 
+# def position(d1,d2,d3):
+#     x = (d1**2 - d2**2 + U**2) / 2U
+#     y = (d1**2 - d3**2 + U**2 - 2*U*x + v**2) / 2U
+#     return x,y 
+
 
 @app.before_first_request(init_func)
 

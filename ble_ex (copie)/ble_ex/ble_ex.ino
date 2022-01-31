@@ -21,19 +21,18 @@ std::string curName;
 String httpQuery;
 int httpResponseCode;
 
-#define SERVER_NAME "http://8acd-37-172-8-127.ngrok.io/data"
+#define SERVER_NAME "http://1243-37-166-19-98.ngrok.io/data/SCAN_PE1"
 const String scanIDJsonField = "S";
 const String UIDJsonField = "B";
 const String distanceJsonField =  "D";
 const String jsonEqual = "\":\"";
 const String jsonSeparator  = "\",\"";
 
-String getJSONQuery(String nm, String myID, float distance) {
+String getJSONQuery( String myID, float distance) {
   char buffD[16];
 
   String buff = String(distance,3);
-  return "{\"" + scanIDJsonField + jsonEqual +  myID
-         + jsonSeparator + UIDJsonField + jsonEqual + nm
+  return "{\"" + UIDJsonField + jsonEqual +  myID 
          + jsonSeparator + distanceJsonField + jsonEqual + buff
          + "\"}";
 }
@@ -53,19 +52,19 @@ class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks
           //Serial.println("33333333333333");
           Serial.println(deviceName.c_str());
           rssiValue   = (float) advertisedDevice.getRSSI();
-          deviceName  = advertisedDevice.getServiceUUID().toString();
+          deviceName  = advertisedDevice.getName();
           Serial.printf("rssi = %f\n",rssiValue);
           //Serial.printf("tx = %d\n",txValue);
           measure     = (measuredPower - rssiValue) / N;
-          printf("measure = %f\n",measure);
+          //printf("measure = %f\n",measure);
           distance    = powf(10.0, measure);
-          //printf("distance = %f\n",distance);
+          Serial.printf("distance = %f\n",distance);
           if (WiFi.status() == WL_CONNECTED) {
             Serial.println(deviceName.c_str());
             HTTPClient http;
             http.begin( wf_client, SERVER_NAME);
             http.addHeader("Content-Type", "application/json");
-            httpQuery = getJSONQuery("SCAN_PE3", deviceName.c_str(),  distance);
+            httpQuery = getJSONQuery(deviceName.c_str(),  distance);
             http.POST(httpQuery);
             http.end();
             delay(2000);
