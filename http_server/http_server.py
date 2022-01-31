@@ -24,14 +24,10 @@ def init_func(smtg=""):
         smps = samples(DATABASE)
 
         bcs.add_beacon("ESP_PE")
-        bcs.add_beacon("ESP_PE1")
         bcs.add_beacon("ESP_PE2")
-        bcs.add_beacon("ESP_PE3")
-        bcs.add_beacon("SCAN_PE1")
-        bcs.add_beacon("SCAN_PE2")
-        bcs.add_beacon("SCAN_PE3")
+        bcs.add_beacon("ESP_PE3")    
         pts.add_position("ESP_PE",38,48)
-        
+        pts.add_position("ESP_PE",200,280)
 
 
 @app.before_first_request(init_func)
@@ -78,6 +74,7 @@ def data():
             return "Beacon not found",404        
     rx_smp = sample(content["B"],content["S"],content["D"])
     smps.add_sample(rx_smp)
+
     # Return HTTP Code if not in db
     return "ok",200
 
