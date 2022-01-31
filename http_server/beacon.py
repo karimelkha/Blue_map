@@ -1,5 +1,3 @@
-
-
 import sqlite3
 from app_constant import DATABASE 
 
@@ -25,7 +23,6 @@ class beacons:
         query = "SELECT * FROM BEACONS "
         fields = self.cur.execute(query).fetchall()
         ret = []
-        print(fields)
         for field in fields :
             ret.append(field[0])
         return ret

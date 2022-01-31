@@ -24,9 +24,13 @@ def init_func(smtg=""):
         smps = samples(DATABASE)
 
         bcs.add_beacon("ESP_PE")
+        bcs.add_beacon("ESP_PE1")
         bcs.add_beacon("ESP_PE2")
         bcs.add_beacon("ESP_PE3")    
         pts.add_position("ESP_PE",38,48)
+        pts.add_position("ESP_PE1",238,248)
+        pts.add_position("ESP_PE2",338,348)
+        pts.add_position("ESP_PE3",138,148)
         pts.add_position("ESP_PE",200,280)
 
 
@@ -68,10 +72,10 @@ def data():
         content = request.json
         if bcs.retrieve_beacon(content["B"]):
             print("Beacon : " + content["B"])
-
             print("Distance : " + content["D"])
         else :
             return "Beacon not found",404        
+
     rx_smp = sample(content["B"],scanner,content["D"])
     smps.add_sample(rx_smp)
 
@@ -83,4 +87,4 @@ if __name__ == '__main__':
     before_first_request_func()
     app.run()
 
-#export FLASK_APP=http_server && export FLASK_RUN_HOST="localhost" && export FLASK_RUN_PORT="5000" && flask run
+#export FLASK_APP=http_serv && export FLASK_RUN_HOST="localhost" && export FLASK_RUN_PORT="5000" && flask run
