@@ -60,7 +60,7 @@ def tracker():
     return render_template("tracker.html",beaconList=beaconList)
 
 
-@app.route('/data', methods=['POST', 'GET'])
+@app.route('/data/<scanner>', methods=['POST', 'GET'])
 def data():
     error = None
     if request.method == 'POST':
@@ -68,11 +68,11 @@ def data():
         content = request.json
         if bcs.retrieve_beacon(content["B"]):
             print("Beacon : " + content["B"])
-            print("Scanner : " + content["S"])
+
             print("Distance : " + content["D"])
         else :
             return "Beacon not found",404        
-    rx_smp = sample(content["B"],content["S"],content["D"])
+    rx_smp = sample(content["B"],scanner,content["D"])
     smps.add_sample(rx_smp)
 
     # Return HTTP Code if not in db
