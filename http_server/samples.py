@@ -24,7 +24,7 @@ class samples:
         self.cur.execute(query)
         
 
-    def add_sample(self,sample) :
+    def add_sample(self,scanner,beacon,distance) :
 	 
         query = "INSERT INTO SAMPLES (" + self.COLUMN_NAMES[0]
         var_field = "(?"
@@ -34,5 +34,18 @@ class samples:
 
         query += ") values " + var_field +")"
 
-        self.cur.execute(query,(sample.scanner,sample.beacon,sample.distance))
- 
+        self.cur.execute(query,(scanner,beacon,distance))
+
+
+
+    def get_last_samples(self,beaconName):
+        print(beaconName)
+        query = "SELECT * FROM SAMPLES where BEACON = '"+beaconName+"' GROUP BY SCANNER ORDER BY Timestamp DESC "
+        fields = self.cur.execute(query).fetchall()
+        return (fields[0][4],fields[1][4],fields[2][4],fields[3][4])
+        
+        # curName = fields[0][2]
+
+        # for sample in fields[:1] :
+        #     cur
+        # fields[4]

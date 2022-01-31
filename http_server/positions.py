@@ -8,6 +8,10 @@ class position:
         self.D3 = D3
         self.beacon = beacon
 
+def calc_position(d1,d2,d3,u,v):
+    x = (d1**2 - d2**2 + u**2) / 2*u
+    y = (d1**2 - d3**2 + u**2 - 2*u*x + v**2) / 2*u
+    return x,y
 
 class positions:
     COLUMN_NAMES = ["X","Y","beacon"]
@@ -39,14 +43,16 @@ class positions:
         self.cur.execute(query,(X,Y,beaconName))
 
     def get_last_position(self,beaconName) :
-        query = "SELECT * FROM POSITIONS where beacon ='" + beaconName+ "' ORDER BY ID DESC"
+        print(beaconName)
+        query = "SELECT * FROM POSITIONS "#where beacon ='" + beaconName+ "' ORDER BY ID DESC"
         # where beacon = '" +beaconName +"' ORDER BY Timestamp DESC"  
-        fields = self.cur.execute(query).fetchall()
-       
+        fields = self.cur.execute(query).fetchall() 
+        print(fields)
         return {"x" : fields[0][1], "y" : fields[0][2]}
-        # return jsonify(
-        #             {"x": str(FLAMSG_ERR_SEC_ACCESS_DENIED), "y": "danger"}
-        #         ),)
+        # query = "SELECT * FROM SAMPLES where beacon = \'ESP_PE\' ORDER BY Timestamp DESC"
+        # print(self.cur.execute(query).fetchall() )
+        # return 0,0
+        
     #     self.conn.commit()
 
     # def get_user(self,usr_name) :

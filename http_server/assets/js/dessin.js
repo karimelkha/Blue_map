@@ -40,7 +40,7 @@ function click_function()
     xhttp.onreadystatechange = function()   
     {
         if(xhttp.readyState == 4 && xhttp.status == 200) {
-            cercle(xhttp.response["x"],xhttp.response["y"]);
+            cercle(xhttp.response["x"]*(1000/6,5),xhttp.response["y"]*(500/1,7));
         }
     }
     xhttp.send('');
