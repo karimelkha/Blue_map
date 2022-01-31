@@ -60,9 +60,5 @@ void loop() {
       }
     }
   }
-  http.begin( wf_client, SERVER_NAME);
-  http.addHeader("Content-Type", "application/json");
-  http.POST(getJSONQuery("EE",  1));
-  http.end();
   delay(5000);
 }
