@@ -16,8 +16,9 @@ function dessin(pos_x, pos_y)
 function cercle(pos_x,pos_y){
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-    let i;
 
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+   
     ctx.beginPath();
     ctx.strokeStyle = 'red';
     ctx.arc(pos_x,pos_y, 20, 0, 2 * Math.PI);
@@ -42,16 +43,14 @@ function click_function()
             cercle(xhttp.response["x"],xhttp.response["y"]);
         }
     }
-
     xhttp.send('');
-
     return xhttp.ResponseText;
 }
 
 
 var button1 = document.getElementById('dessiner');
-button1.onclick = click_function;
 
+button1.onclick = click_function;
 window.setInterval(click_function, 2000);
 
 
