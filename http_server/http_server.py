@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request, g, jsonify
 import sqlite3
 from app_constant import DATABASE 
 from beacon import *
@@ -24,14 +24,10 @@ def init_func(smtg=""):
         smps = samples(DATABASE)
 
         bcs.add_beacon("ESP_PE")
-        bcs.add_beacon("ESP_PE1")
         bcs.add_beacon("ESP_PE2")
-        bcs.add_beacon("ESP_PE3")
-        bcs.add_beacon("SCAN_PE1")
-        bcs.add_beacon("SCAN_PE2")
-        bcs.add_beacon("SCAN_PE3")
-        pts.add_position("ESP_PE",3.8,4.8)
-        
+        bcs.add_beacon("ESP_PE3")    
+        pts.add_position("ESP_PE",38,48)
+        pts.add_position("ESP_PE",200,280)
 
 
 @app.before_first_request(init_func)
@@ -41,6 +37,11 @@ def init_func(smtg=""):
 #     db = getattr(g, '_database', None)
 #     if db is not None:
 
+@app.route('/usr/<beacon>')
+def show(beacon):
+    msg = pts.get_last_position(beacon)
+    return jsonify(msg), 200
+
 @app.route("/index.html")
 @app.route("/")
 def home():
@@ -48,9 +49,10 @@ def home():
         print("Tried POST query")
     return render_template("index.html")
 
+
+
 @app.route("/tracker.html")
 @app.route("/tracker")
-
 def tracker():
     if request.method == 'POST':
         print("Tried POST query")
@@ -72,6 +74,7 @@ def data():
             return "Beacon not found",404        
     rx_smp = sample(content["B"],content["S"],content["D"])
     smps.add_sample(rx_smp)
+
     # Return HTTP Code if not in db
     return "ok",200
 

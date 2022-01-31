@@ -3,6 +3,7 @@ function dessin(pos_x, pos_y)
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     let i;
+    ctx.clearRect(0,0,ctx.width,ctx.height);
     for(i = 0; i != pos_x.length-1 || i != pos_y.length-1; i++)
     {
         ctx.beginPath();
@@ -12,9 +13,46 @@ function dessin(pos_x, pos_y)
         ctx.stroke();
     }
 }
+function cercle(pos_x,pos_y){
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    let i;
+
+    ctx.beginPath();
+    ctx.strokeStyle = 'red';
+    ctx.arc(pos_x,pos_y, 20, 0, 2 * Math.PI);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.stroke();
+}
 
 
-var pos_x = [20,100,200,156,98,176,456,210]
-var pos_y = [20,100,200,156,98,176,456,210]
+function click_function()
+{
+    var xhttp = new XMLHttpRequest();
+    var beacon_id = document.getElementById('beaconList').value;
 
-dessin(pos_x,pos_y)
+    xhttp.responseType = 'json';
+    console.log("beacon_id: "+beacon_id);
+    xhttp.open("GET","usr/"+beacon_id, true);
+
+    xhttp.onreadystatechange = function()   
+    {
+        if(xhttp.readyState == 4 && xhttp.status == 200) {
+            cercle(xhttp.response["x"],xhttp.response["y"]);
+        }
+    }
+
+    xhttp.send('');
+
+    return xhttp.ResponseText;
+}
+
+
+var button1 = document.getElementById('dessiner');
+button1.onclick = click_function;
+
+window.setInterval(click_function, 2000);
+
+
+

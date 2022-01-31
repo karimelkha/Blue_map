@@ -37,6 +37,16 @@ class positions:
         query += ") values " + var_field +")"
 
         self.cur.execute(query,(X,Y,beaconName))
+
+    def get_last_position(self,beaconName) :
+        query = "SELECT * FROM POSITIONS ORDER BY ID DESC"
+        # where beacon = '" +beaconName +"' ORDER BY Timestamp DESC"  
+        fields = self.cur.execute(query).fetchall()
+        print(fields)
+        return {"x" : fields[0][1], "y" : fields[0][2]}
+        # return jsonify(
+        #             {"x": str(FLAMSG_ERR_SEC_ACCESS_DENIED), "y": "danger"}
+        #         ),)
     #     self.conn.commit()
 
     # def get_user(self,usr_name) :
