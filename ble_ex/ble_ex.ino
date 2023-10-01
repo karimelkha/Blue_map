@@ -3,9 +3,6 @@
 #include <BLEDevice.h>
 #include <BLEScan.h>
 
-//const char* ssid = "SFR-1df8";
-//const char* password = "Y5UJNCPHDE99XSQYFS4G";
-
 const char* ssid = "Redmi Note 10 5G";
 const char* password = "mascarpone" ;
 #define SERVER_NAME "http://4d9b-37-164-175-26.ngrok.io/data"
