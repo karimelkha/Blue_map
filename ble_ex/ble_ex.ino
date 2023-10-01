@@ -3,8 +3,6 @@
 #include <BLEDevice.h>
 #include <BLEScan.h>
 
-const char* ssid = "Redmi Note 10 5G";
-const char* password = "mascarpone" ;
 #define SERVER_NAME "http://4d9b-37-164-175-26.ngrok.io/data"
 const String scanIDJsonField = "S";
 const String UIDJsonField = "B";
